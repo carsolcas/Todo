@@ -1,0 +1,22 @@
+<div class="task-item columns large-12">
+    <div class="task-header columns large-12">
+        <%- title %>
+        <input class="edit-header" value="<%- title %>">
+    </div>
+    <div class="task-date columns large-6">
+        <%- date %>
+    </div>
+    <div class="task-date columns large-6">
+        Time : <span><%- time %></span>
+    </div>
+    <div class="task-des columns large-12">
+        <%- description %>
+    </div>
+</div>
+
+<div class="view">
+    <input class="toggle" type="checkbox" <%= completed ? 'checked' : '' %>>
+    <label><%- title %></label>
+    <button class="destroy"></button>
+</div>
+

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en" data-framework="backbonejs">
+    <head>
+        <meta charset="utf-8">
+        <title>jaTodo</title>
+        <link rel="stylesheet" href="assets/foundation.css">
+        <link rel="stylesheet" href="assets/jquery.ui.css">
+        <link rel="stylesheet" href="assets/base.css">
+    </head>
+    <body>
+        <section id="todoapp">
+            <header id="header" class="row">
+                <h3>Add a task</h3>
+                <form id="todo-form">
+                    <div class="large-4 columns">
+                        <input type="text" placeholder="Title" />
+                        <input type="text" id="datepicker" placeholder="Date (dd/mm/yyyy)" />
+                    </div>
+                    <div class="large-6 columns">
+                        <textarea placeholder="Descrtipion"></textarea>
+                    </div>
+                    <div class="large-2 columns">
+                        <input type="button" class="btn btn-primary" value="Clear Data" onclick="todo.clear();" />
+                        <input type="button" class="btn btn-primary" value="Add Task" onclick="todo.add();" />
+                    </div>
+                </form>
+
+
+            </header>
+            <section id="main" class="row">
+                <div class="large-4 columns">
+                    <h3>Pending</h3>
+                    <div class="task-list" id="pending">
+                        <div class="task-item columns large-12">
+                            <div class="task-header columns large-12">
+                                Task title
+                            </div>
+                            <div class="task-date columns large-6">
+                                12/09/2012
+                            </div>
+                            <div class="task-date columns large-6">
+                                Time : <span>00:00:00</span>
+                            </div>
+                            <div class="task-des columns large-12">
+                                Lorem ipsum et ceterum est lirum cartesum resae
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="large-4 columns">
+                    <h3>In Progress</h3>
+                    <div class="task-list" id="inProgress">
+                        <div class="task-item columns large-12">
+                            <div class="task-header columns large-12">
+                                Task title
+                            </div>
+                            <div class="task-date columns large-6">
+                                12/09/2012
+                            </div>
+                            <div class="task-date columns large-6">
+                                Time : <span>00:00:00</span>
+                            </div>
+                            <div class="task-des columns large-12">
+                                Lorem ipsum et ceterum est lirum cartesum resae lorem iptum ez terum est lirum cartesum cesar domico resae
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="large-4 columns" >
+                    <h3>Completed</h3>
+                    <div class="task-list" id="completed"></div>
+                </div>
+            </section>
+            <footer id="footer"></footer>
+        </section>
+        <footer id="info" class="row">
+        </footer>
+        <script data-main="js/main" src="vendors/require.js"></script>
+    </body>
+</html>
