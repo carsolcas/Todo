@@ -1,8 +1,9 @@
 /*global define*/
 define([
     'underscore',
-    'backbone'
-], function (_, Backbone) {
+    'backbone',
+    'common/todo_state'
+], function (_, Backbone, state) {
     'use strict';
 
     var Todo = Backbone.Model.extend({
@@ -10,7 +11,7 @@ define([
             title: '',
             description: '',
             create_date: Date(),
-            state: 'pending',
+            state: state.PENDING,
             completed: false,
             time: 0,
             current_job: false
