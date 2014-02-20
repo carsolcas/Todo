@@ -9,13 +9,16 @@ define([
 
     var TodosCollection = Backbone.Collection.extend({
         model: Todo,
-        localStorage: new Store('ja-todos'),
 
         nextOrder: function () {
             if (!this.length) {
                 return 1;
             }
             return this.last().get('order') + 1;
+        },
+
+        setLocalStoragePrefix(prefix){
+            this.localStorage = new Store(prefix),
         },
 
         comparator: function (todo) {
