@@ -17,8 +17,8 @@ define([
             return this.last().get('order') + 1;
         },
 
-        setLocalStoragePrefix(prefix){
-            this.localStorage = new Store(prefix),
+        setLocalStoragePrefix: function(prefix){
+            this.localStorage = new Store(prefix);
         },
 
         comparator: function (todo) {
