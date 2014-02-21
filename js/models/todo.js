@@ -1,5 +1,5 @@
 /*global define*/
-4define([
+define([
     'underscore',
     'backbone',
     'common/todo_state'

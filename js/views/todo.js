@@ -25,4 +25,5 @@ define([
             return this;
         },
 
+    });
 });
