@@ -32,12 +32,9 @@ require.config({
 });
 
 require([
-    'jqueryui',
     'backbone',
     'views/app'
 ], function ($, Backbone, AppView) {
     Backbone.history.start();
-    $( "#datepicker" ).datepicker();
-    $( "#datepicker" ).datepicker("option", "dateFormat", "dd/mm/yy");
     new AppView();
 });

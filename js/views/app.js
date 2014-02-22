@@ -13,15 +13,35 @@ define([
         el: '#todoapp',
 
         events: {
-        'keypress #new-title': 'titlepress'
+        'keypress #new-title': 'titlePressKey',
+        'keypress #new-description': 'descriptionPressKey',
+        'click #btn-add': 'addTask'
         },
 
         initialize: function () {
+            this.$title = this.$('#new-title');
+            this.$desc = this.$('#new-description');
+            this.$btn_add = this.$('#btn-add');
+            this.$btn_clear = this.$('#btn-clear');
         },
 
-        titlepress: function(){
-            console.log('Key Pressed');
+        addTask: function(){
+            console.log(this.$title.val());
+            console.log(this.$desc.val());
         },
+
+        titlePressKey: function(event){
+            if (event.which === Common.ENTER_KEY ) {
+                this.$desc.focus();
+            }
+        },
+
+        descriptionPressKey: function(event){
+            if (event.which === Common.ENTER_KEY ) {
+                this.addTask();
+            }
+        },
+
 
         render: function () {
         }
