@@ -10,18 +10,28 @@
     <body>
         <section id="todoapp">
             <header id="header" class="row">
-                <h3>Add a task</h3>
                 <form id="todo-form">
-                    <div class="large-4 columns">
-                        <input type="text" id="new-title" placeholder="Title" />
-                        <input type="text" id="datepicker" placeholder="Date (dd/mm/yyyy)" />
+                    <div class="large-5 columns summary">
+                        <h3>Summary</h3>
+                        <div id="summary-data">
+                            <div class="large-5 columns item"><span class="bold">Date:</span> 10/02/2014</div>
+                            <div class="large-7 columns item"><span class="bold">Total time:</span> 01h 23' 54"</div>
+                            <div class="large-12 columns item"><span class="bold">Completed tasks:</span> 10</div>
+                            <div class="large-12 columns item"><span class="bold">Pending tasks:</span> 10</div>
+                            <div class="large-12 columns item">&nbsp;</div>
+                        </div>
+                        <div class="large-12 columns item">
+                            <input type="button" id="btn-export" class="btn btn-primary" value="Export Summary tasks" />
+                        </div>
                     </div>
-                    <div class="large-6 columns">
+                    <div class="large-5 columns">
+                        <h3>Add task</h3>
+                        <input type="text" id="new-title" placeholder="Title" />
                         <textarea id="new-description" placeholder="Descrtipion"></textarea>
                     </div>
                     <div class="large-2 columns">
-                        <input type="button" class="btn btn-primary" value="Clear Data" onclick="todo.clear();" />
-                        <input type="button" class="btn btn-primary" value="Add Task" onclick="todo.add();" />
+                        <input type="button" id="btn-add" class="btn btn-primary first-button" value="Add Task" />
+                        <input type="button" id="btn-clear" class="btn btn-primary first-button" value="Clear data" />
                     </div>
                 </form>
 

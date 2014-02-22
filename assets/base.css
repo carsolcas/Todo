@@ -10,8 +10,8 @@
 #todo-form input[type="button"] {
     min-width:100px;
     float:left;
-    margin-bottom:30px;
 }
+#todo-form input.first-button{margin-top:60px;}
 
 #main{
     margin-top:30px;
@@ -35,3 +35,11 @@
     padding-top:10px;
     font-style:italic;
 }
+
+h3{ border-bottom:1px solid #aaa;}
+
+.summary .item{
+    margin-top:10px;
+}
+
+span.bold{font-weight:bold;}
