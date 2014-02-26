@@ -26,4 +26,6 @@ define([
         },
 
     });
+
+    return TodoView;
 });

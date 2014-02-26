@@ -12,7 +12,6 @@ define([
             description: '',
             create_date: Date(),
             state: state.PENDING,
-            completed: false,
             time: 0,
             current_job: false
         },

@@ -19,6 +19,7 @@ define([
 
         setLocalStoragePrefix: function(prefix){
             this.localStorage = new Store(prefix);
+            return this;
         },
 
         comparator: function (todo) {
@@ -26,5 +27,5 @@ define([
         }
     });
 
-    return new TodosCollection();
+    return TodosCollection;
 });
