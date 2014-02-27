@@ -34,8 +34,10 @@ define([
             this.completed_list = new TodoList().setLocalStoragePrefix('com');
 
             this.listenTo(this.pending_list, 'add', this.addOneEvent);
+            this.listenTo(this.pending_list, 'reset', this.addAll);
+            this.listenTo(this.pending_list, 'all', this.render);
 
-            this.render();
+            this.pending_list.fetch();
         },
 
         getTaskData: function(){
@@ -77,13 +79,14 @@ define([
         },
 
         render: function () {
+            console.log('render');
             var d = new Date();
             var date = this.lpad(d.getDate(), 2)+'/'+this.lpad(d.getMonth()+1, 2)+'/'+d.getFullYear();
             this.$summary_data.html(this.summaryTemplate({
                 date: date,
                 time: 0,
-                num_completed: 0,
-                num_pending: 0
+                num_completed: this.completed_list.length,
+                num_pending: this.pending_list.length
             }));
         }
     });

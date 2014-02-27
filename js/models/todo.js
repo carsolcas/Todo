@@ -13,7 +13,10 @@ define([
             create_date: Date(),
             state: state.PENDING,
             time: 0,
-            current_job: false
+            current_job: false,
+            formatTime:function(){
+                return '00:00';
+            }
         },
 
         add_time : function(seconds){

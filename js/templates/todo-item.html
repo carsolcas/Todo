@@ -1,13 +1,10 @@
 <div class="task-item columns large-12">
-    <div class="task-header columns large-12">
+    <div class="task-header columns large-8">
         <%- title %>
         <input class="edit-header" value="<%- title %>">
     </div>
-    <div class="task-date columns large-6">
-        Time : <span><%- time %></span>
-    </div>
-    <div class="task-date columns large-6">
-        &nbsp;
+    <div class="task-date columns large-4">
+        <span><%= formatTime() %></span>
     </div>
     <div class="task-des columns large-12">
         <%- description %>
