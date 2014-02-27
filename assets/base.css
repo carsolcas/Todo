@@ -30,6 +30,7 @@ list-style:none;
     border:1px dotted #999;
     font-size:0.9em;
     margin: 5px 0px;
+    position:relative;
 }
 .task-header{
     font-weight:bold;
@@ -44,6 +45,18 @@ list-style:none;
     padding-top:10px;
     font-style:italic;
     border-top:1px solid #999;
+}
+.task-close{
+    position:absolute;
+    top:5px;
+    left:5px;
+    color:#999;
+    cursor:pointer;
+    display:none;
+}
+
+.task-item:hover > .task-close{
+    display:block;
 }
 
 h3{ border-bottom:1px solid #aaa;}

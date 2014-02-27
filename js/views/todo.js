@@ -15,6 +15,10 @@ define([
 
         template: _.template(todoTemplate),
 
+        events: {
+        'click .task-close': 'deleteTask'
+        },
+
         initialize: function() {
             this.listenTo(this.model, 'change', this.render);
         },
@@ -24,6 +28,10 @@ define([
             this.$input = this.$('.edit-header');
             return this;
         },
+
+        deleteTask: function(){
+            console.log('click delete');
+        }
 
     });
 
