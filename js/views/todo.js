@@ -30,9 +30,10 @@ define([
         },
 
         deleteTask: function(){
-            console.log('click delete');
+            this.model.destroy();
+            // Delete view
+            this.remove();
         }
-
     });
 
     return TodoView;

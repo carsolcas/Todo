@@ -34,10 +34,9 @@ define([
             this.completed_list = new TodoList().setLocalStoragePrefix('com');
 
             this.listenTo(this.pending_list, 'add', this.addOneEvent);
-            this.listenTo(this.pending_list, 'reset', this.addAll);
-            this.listenTo(this.pending_list, 'all', this.render);
-
+            this.listenTo(this.pending_list, 'remove', this.removeOneEvent);
             this.pending_list.fetch();
+            this.render();
         },
 
         getTaskData: function(){
@@ -52,11 +51,16 @@ define([
             this.$pending.append( view.render().el );
         },
 
+        removeOneEvent: function( todo ){
+            this.render();
+        },
+
         addTask: function(){
-            var data = this.getTaskData()
-            this.pending_list.create(data);
+            var data = this.getTaskData();
+            this.pending_list.create(data, {wait: true});
             this.$title.val('');
             this.$desc.val('');
+            this.render();
         },
 
         titlePressKey: function(event){
@@ -79,7 +83,6 @@ define([
         },
 
         render: function () {
-            console.log('render');
             var d = new Date();
             var date = this.lpad(d.getDate(), 2)+'/'+this.lpad(d.getMonth()+1, 2)+'/'+d.getFullYear();
             this.$summary_data.html(this.summaryTemplate({
