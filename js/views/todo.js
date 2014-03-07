@@ -1,6 +1,6 @@
 /*global define*/
 define([
-    'jquery',
+    'jqueryui',
     'underscore',
     'backbone',
     'text!templates/todo-item.html',
@@ -26,6 +26,12 @@ define([
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
             this.$input = this.$('.edit-header');
+            var id = '#' + this.model.id;
+            this.$(id).draggable({
+                    revert: 'invalid',
+                    snap: ".task-list",
+                    connectToSortable: ".task-list"
+            });
             return this;
         },
 

@@ -1,6 +1,6 @@
 /*global define*/
 define([
-    'jquery',
+    'jqueryui',
     'underscore',
     'backbone',
     'collections/todos',
@@ -29,9 +29,19 @@ define([
             this.$summary_data = this.$('#summary-data');
             this.$pending = this.$('#pending');
 
+            this.$('.droppable').droppable({
+                drop: function (event, ui) {
+                        var element = ui.helper[0];
+                        console.log('drop in');
+                }
+            });
+
+            this.$('.task-list').sortable({revert: true});
+
             this.pending_list = new TodoList().setLocalStoragePrefix('pen');
             this.inprogress_list = new TodoList().setLocalStoragePrefix('inp');
             this.completed_list = new TodoList().setLocalStoragePrefix('com');
+
 
             this.listenTo(this.pending_list, 'add', this.addOneEvent);
             this.listenTo(this.pending_list, 'remove', this.removeOneEvent);
