@@ -16,22 +16,25 @@ define([
         template: _.template(todoTemplate),
 
         events: {
-        'click .task-close': 'deleteTask'
+            'click .task-close': 'deleteTask'
         },
 
         initialize: function() {
             this.listenTo(this.model, 'change', this.render);
+            this.listenTo(this.model, 'destroy', this.remove);
+            $(this.el).draggable({
+                    revert: 'invalid',
+                    snap: ".task-list",
+                    connectToSortable: ".task-list"
+            });
+             $(this.el).data("backbone-todo", this.model);
         },
 
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
             this.$input = this.$('.edit-header');
             var id = '#' + this.model.id;
-            this.$(id).draggable({
-                    revert: 'invalid',
-                    snap: ".task-list",
-                    connectToSortable: ".task-list"
-            });
+
             return this;
         },
 

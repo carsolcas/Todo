@@ -6,8 +6,9 @@ define([
     'collections/todos',
     'views/todo',
     'common/common',
+    'common/todo_state',
     'text!templates/status.html'
-], function ($, _, Backbone, TodoList, TodoView, Common, summaryTemplate) {
+], function ($, _, Backbone, TodoList, TodoView, Common, TSTATE, summaryTemplate) {
     'use strict';
 
     var appView = Backbone.View.extend({
@@ -27,25 +28,46 @@ define([
             this.$btn_add = this.$('#btn-add');
             this.$btn_clear = this.$('#btn-clear');
             this.$summary_data = this.$('#summary-data');
-            this.$pending = this.$('#pending');
+            this.$collections = [this.$('#pending'),this.$('#inProgress'),this.$('#completed')];
 
+            var pending_list = new TodoList().setLocalStoragePrefix('pen'),
+                inprogress_list = new TodoList().setLocalStoragePrefix('inp'),
+                completed_list = new TodoList().setLocalStoragePrefix('com');
+            this.collections = [pending_list, inprogress_list, completed_list];
+
+            _.forEach(this.$collections, function($col_container, state){
+                $col_container.data('state', state);
+                $col_container.attr('id', state);
+            });
+
+            _.forEach(this.collections, function(collection, state){
+                this.listenTo(collection, 'add', this.addOneEvent);
+                this.listenTo(collection, 'remove', this.removeOneEvent);
+            }, this);
+
+
+            var that = this;
             this.$('.droppable').droppable({
                 drop: function (event, ui) {
-                        var element = ui.helper[0];
-                        console.log('drop in');
+                        var todo = $(ui.draggable).data("backbone-todo"),
+                            state = $(this).find('.task-list').data('state');
+                        if (state === todo.get('state') ) return;
+
+                        todo.set('state', state);
+                        that.collections[state].create(todo.attributes, {wait: true});
+
+                        that.collections[todo.get('state')].remove(todo);
+                        todo.destroy();
+                        that.render();
                 }
             });
 
             this.$('.task-list').sortable({revert: true});
 
-            this.pending_list = new TodoList().setLocalStoragePrefix('pen');
-            this.inprogress_list = new TodoList().setLocalStoragePrefix('inp');
-            this.completed_list = new TodoList().setLocalStoragePrefix('com');
+            _.forEach(this.collections, function(collection, state){
+                collection.fetch();
+            });
 
-
-            this.listenTo(this.pending_list, 'add', this.addOneEvent);
-            this.listenTo(this.pending_list, 'remove', this.removeOneEvent);
-            this.pending_list.fetch();
             this.render();
         },
 
@@ -57,8 +79,9 @@ define([
         },
 
         addOneEvent: function( todo ) {
-            var view = new TodoView({ model: todo });
-            this.$pending.append( view.render().el );
+            var view = new TodoView({ model: todo }),
+                state = todo.get('state');
+            this.$collections[state].append( view.render().el );
         },
 
         removeOneEvent: function( todo ){
@@ -67,7 +90,7 @@ define([
 
         addTask: function(){
             var data = this.getTaskData();
-            this.pending_list.create(data, {wait: true});
+            this.collections[TSTATE.PENDING].create(data, {wait: true});
             this.$title.val('');
             this.$desc.val('');
             this.render();
@@ -98,8 +121,8 @@ define([
             this.$summary_data.html(this.summaryTemplate({
                 date: date,
                 time: 0,
-                num_completed: this.completed_list.length,
-                num_pending: this.pending_list.length
+                num_completed: this.collections[TSTATE.COMPLETED].length,
+                num_pending: this.collections[TSTATE.PENDING].length
             }));
         }
     });

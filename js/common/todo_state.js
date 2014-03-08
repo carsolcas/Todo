@@ -3,8 +3,8 @@
 
 define([], function () {
     return {
-        PENDING: 1,
-        PROCESSING: 2,
-        COMPLETED: 3
+        PENDING: 0,
+        PROCESSING: 1,
+        COMPLETED: 2
     };
 });
