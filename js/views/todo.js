@@ -22,16 +22,14 @@ define([
         initialize: function() {
             this.listenTo(this.model, 'change', this.render);
             this.listenTo(this.model, 'destroy', this.remove);
-            $(this.el).draggable({
-                    revert: 'invalid'
-            });
-             $(this.el).data("backbone-todo", this);
         },
 
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
             this.$input = this.$('.edit-header');
-            var id = '#' + this.model.id;
+            this.$('.task-item').draggable({
+                    revert: 'invalid'
+                }).data("backbone-todo", this);
 
             return this;
         },

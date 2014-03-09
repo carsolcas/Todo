@@ -42,13 +42,12 @@ define([
             var that = this;
             this.$('.droppable').droppable({
                 drop: function (event, ui) {
-                    var todoView = $(ui.draggable).data("backbone-todo"),
+                    var todoView = ui.draggable.data("backbone-todo"),
                         todo = todoView.model,
                         new_state = $(this).find('.task-list').data('state');
 
                     if (new_state === todo.get('state') ){
-                        todoView.$el.css('left', 0);
-                        todoView.$el.css('top', 0);
+                        ui.draggable.css('left', 0).css('top', 0);
                         return;
                     }
 
@@ -116,6 +115,7 @@ define([
                 date: date,
                 time: 0,
                 num_completed: this.todoCollection.filterByState(TSTATE.COMPLETED).length,
+                num_processing: this.todoCollection.filterByState(TSTATE.PROCESSING).length,
                 num_pending: this.todoCollection.filterByState(TSTATE.PENDING).length
             }));
         }
