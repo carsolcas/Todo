@@ -46,7 +46,7 @@ list-style:none;
     font-style:italic;
     border-top:1px solid #999;
 }
-.task-close{
+.task-action{
     position:absolute;
     top:5px;
     left:5px;
@@ -55,7 +55,7 @@ list-style:none;
     display:none;
 }
 
-.task-item:hover > .task-close{
+.task-item:hover > .task-action{
     display:block;
 }
 

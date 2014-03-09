@@ -9,6 +9,11 @@
     <div class="task-des columns large-12">
         <%- description %>
     </div>
-    <div class="task-close"><i class="fa fa-times"></i></div>
+    <% if (state == 0 || state == 2 )%>
+        <div class="task-action task-close"><i class="fa fa-times"></i></div>
+    <% else if ( current_job )%>
+        <div class="task-action task-stop"><i class="fa fa-stop"></i></div>
+    <% else %>
+        <div class="task-action task-play"><i class="fa fa-play"></i></div>
 </div>
 

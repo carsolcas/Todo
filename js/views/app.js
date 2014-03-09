@@ -46,7 +46,11 @@ define([
                         todo = todoView.model,
                         new_state = $(this).find('.task-list').data('state');
 
-                    if (new_state === todo.get('state') ) return;
+                    if (new_state === todo.get('state') ){
+                        todoView.$el.css('left', 0);
+                        todoView.$el.css('top', 0);
+                        return;
+                    }
 
                     todo.set('state', new_state);
                     todo.save();
@@ -56,8 +60,6 @@ define([
                     that.render();
                 }
             });
-
-            this.$('.task-list').sortable({revert: true});
 
             this.todoCollection.fetch();
             this.render();

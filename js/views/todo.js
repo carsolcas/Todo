@@ -23,9 +23,7 @@ define([
             this.listenTo(this.model, 'change', this.render);
             this.listenTo(this.model, 'destroy', this.remove);
             $(this.el).draggable({
-                    revert: 'invalid',
-                    snap: ".task-list",
-                    connectToSortable: ".task-list"
+                    revert: 'invalid'
             });
              $(this.el).data("backbone-todo", this);
         },
