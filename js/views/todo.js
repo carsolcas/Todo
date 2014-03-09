@@ -27,7 +27,7 @@ define([
                     snap: ".task-list",
                     connectToSortable: ".task-list"
             });
-             $(this.el).data("backbone-todo", this.model);
+             $(this.el).data("backbone-todo", this);
         },
 
         render: function () {

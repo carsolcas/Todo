@@ -30,44 +30,36 @@ define([
             this.$summary_data = this.$('#summary-data');
             this.$collections = [this.$('#pending'),this.$('#inProgress'),this.$('#completed')];
 
-            var pending_list = new TodoList().setLocalStoragePrefix('pen'),
-                inprogress_list = new TodoList().setLocalStoragePrefix('inp'),
-                completed_list = new TodoList().setLocalStoragePrefix('com');
-            this.collections = [pending_list, inprogress_list, completed_list];
+            this.todoCollection = new TodoList();
+            this.listenTo(this.todoCollection, 'add', this.addOneEvent);
+            this.listenTo(this.todoCollection, 'remove', this.removeOneEvent);
 
             _.forEach(this.$collections, function($col_container, state){
                 $col_container.data('state', state);
-                $col_container.attr('id', state);
             });
-
-            _.forEach(this.collections, function(collection, state){
-                this.listenTo(collection, 'add', this.addOneEvent);
-                this.listenTo(collection, 'remove', this.removeOneEvent);
-            }, this);
 
 
             var that = this;
             this.$('.droppable').droppable({
                 drop: function (event, ui) {
-                        var todo = $(ui.draggable).data("backbone-todo"),
-                            state = $(this).find('.task-list').data('state');
-                        if (state === todo.get('state') ) return;
+                    var todoView = $(ui.draggable).data("backbone-todo"),
+                        todo = todoView.model,
+                        new_state = $(this).find('.task-list').data('state');
 
-                        todo.set('state', state);
-                        that.collections[state].create(todo.attributes, {wait: true});
+                    if (new_state === todo.get('state') ) return;
 
-                        that.collections[todo.get('state')].remove(todo);
-                        todo.destroy();
-                        that.render();
+                    todo.set('state', new_state);
+                    todo.save();
+                    todoView.remove();
+                    that.todoCollection.remove(todo);
+                    that.todoCollection.add(todo);
+                    that.render();
                 }
             });
 
             this.$('.task-list').sortable({revert: true});
 
-            _.forEach(this.collections, function(collection, state){
-                collection.fetch();
-            });
-
+            this.todoCollection.fetch();
             this.render();
         },
 
@@ -90,7 +82,7 @@ define([
 
         addTask: function(){
             var data = this.getTaskData();
-            this.collections[TSTATE.PENDING].create(data, {wait: true});
+            this.todoCollection.create(data, {wait: true});
             this.$title.val('');
             this.$desc.val('');
             this.render();
@@ -121,8 +113,8 @@ define([
             this.$summary_data.html(this.summaryTemplate({
                 date: date,
                 time: 0,
-                num_completed: this.collections[TSTATE.COMPLETED].length,
-                num_pending: this.collections[TSTATE.PENDING].length
+                num_completed: this.todoCollection.filterByState(TSTATE.COMPLETED).length,
+                num_pending: this.todoCollection.filterByState(TSTATE.PENDING).length
             }));
         }
     });

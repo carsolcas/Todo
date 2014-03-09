@@ -9,6 +9,8 @@ define([
 
     var TodosCollection = Backbone.Collection.extend({
         model: Todo,
+        localStorage: new Backbone.LocalStorage('todos'),
+
 
         nextOrder: function () {
             if (!this.length) {
@@ -17,9 +19,10 @@ define([
             return this.last().get('order') + 1;
         },
 
-        setLocalStoragePrefix: function(prefix){
-            this.localStorage = new Store(prefix);
-            return this;
+        filterByState: function(state) {
+            return this.filter(function( todo ) {
+                return todo.get('state') === state;
+            });
         },
 
         comparator: function (todo) {

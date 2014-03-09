@@ -68,3 +68,5 @@ h3{ border-bottom:1px solid #aaa;}
 span.bold{font-weight:bold;}
 
 .edit-header{display:none;}
+
+.large-4.columns.droppable{min-height:150px;}
