@@ -2,8 +2,9 @@
 define([
     'underscore',
     'backbone',
-    'common/todo_state'
-], function (_, Backbone, state) {
+    'common/todo_state',
+    'common/common'
+], function (_, Backbone, state, Common) {
     'use strict';
 
     var Todo = Backbone.Model.extend({
@@ -13,10 +14,7 @@ define([
             create_date: Date(),
             state: state.PENDING,
             time: 0,
-            current_job: false,
-            formatTime:function(){
-                return '00:00';
-            }
+            current_job: false
         },
 
         add_time : function(seconds){

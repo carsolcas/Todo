@@ -25,13 +25,25 @@ define([
         },
 
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            var data = this.model.toJSON();
+            data.formatedTime = this.formatTime(this.model.get('time'));
+            this.$el.html(this.template(data));
             this.$input = this.$('.edit-header');
+
             this.$('.task-item').draggable({
                     revert: 'invalid'
                 }).data("backbone-todo", this);
 
             return this;
+        },
+
+        formatTime:function(taskTime){
+                var seconds = taskTime % 60,
+                    minutes = Math.floor(taskTime / 60),
+                    hour = (minutes < 60) ? 0 : Math.floor(minutes / 60),
+                    time = [Common.lpad(hour, 2), Common.lpad(minutes, 2), Common.lpad(seconds, 2)];
+
+                return time.join(':');
         },
 
         deleteTask: function(){
