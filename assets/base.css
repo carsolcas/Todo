@@ -36,8 +36,22 @@ list-style:none;
     font-weight:bold;
     margin-bottom:5px;
     padding-bottom:5px;
+    position:relative;
 
 }
+
+.edit-title{
+    display:none;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:99;
+}
+
+.task-header.editing .edit-title{
+    display:block;
+}
+
 .task-date{
     text-align:right;
 }
@@ -66,7 +80,5 @@ h3{ border-bottom:1px solid #aaa;}
 }
 
 span.bold{font-weight:bold;}
-
-.edit-header{display:none;}
 
 .large-4.columns.droppable{min-height:150px;}

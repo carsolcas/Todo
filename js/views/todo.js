@@ -16,7 +16,10 @@ define([
         template: _.template(todoTemplate),
 
         events: {
-            'click .task-close': 'deleteTask'
+            'click .task-close': 'deleteTask',
+            'dblclick .task-header': 'editTitle',
+            'keypress .edit-title': 'updateTitleOnEnter',
+            'blur .edit-title': 'closeTitle'
         },
 
         initialize: function() {
@@ -28,7 +31,8 @@ define([
             var data = this.model.toJSON();
             data.formatedTime = this.formatTime(this.model.get('time'));
             this.$el.html(this.template(data));
-            this.$input = this.$('.edit-header');
+            this.$input_title = this.$('.edit-title');
+            this.$task_header = this.$('.task-header');
 
             this.$('.task-item').draggable({
                     revert: 'invalid'
@@ -50,7 +54,27 @@ define([
             this.model.destroy();
             // Delete view
             this.remove();
+        },
+        // Close the `"editing"` mode, saving changes to the todo.
+        closeTitle: function() {
+            var value = this.$input_title.val().trim();
+            if ( value ) {
+                this.model.save({ title: value });
+            }
+            this.$task_header.removeClass('editing');
+        },
+
+        editTitle: function() {
+            this.$task_header.addClass('editing');
+            this.$input_title.focus();
+        },
+
+        updateTitleOnEnter: function( e ) {
+            if ( e.which === 13 ) {
+                this.closeTitle();
+            }
         }
+
     });
 
     return TodoView;
