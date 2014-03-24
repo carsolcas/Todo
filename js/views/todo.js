@@ -19,7 +19,10 @@ define([
             'click .task-close': 'deleteTask',
             'dblclick .task-header': 'editTitle',
             'keypress .edit-title': 'updateTitleOnEnter',
-            'blur .edit-title': 'closeTitle'
+            'blur .edit-title': 'closeTitle',
+            'dblclick .task-des': 'editDescription',
+            'keypress .edit-des': 'updateDescriptionOnEnter',
+            'blur .edit-des': 'closeDescription'
         },
 
         initialize: function() {
@@ -32,7 +35,9 @@ define([
             data.formatedTime = this.formatTime(this.model.get('time'));
             this.$el.html(this.template(data));
             this.$input_title = this.$('.edit-title');
+            this.$input_description = this.$('.edit-des');
             this.$task_header = this.$('.task-header');
+            this.$task_description = this.$('.task-des');
 
             this.$('.task-item').draggable({
                     revert: 'invalid'
@@ -55,7 +60,6 @@ define([
             // Delete view
             this.remove();
         },
-        // Close the `"editing"` mode, saving changes to the todo.
         closeTitle: function() {
             var value = this.$input_title.val().trim();
             if ( value ) {
@@ -72,6 +76,25 @@ define([
         updateTitleOnEnter: function( e ) {
             if ( e.which === 13 ) {
                 this.closeTitle();
+            }
+        },
+
+        closeDescription: function() {
+            var value = this.$input_description.val().trim();
+            if ( value ) {
+                this.model.save({ description: value });
+            }
+            this.$task_description.removeClass('editing');
+        },
+
+        editDescription: function() {
+            this.$task_description.addClass('editing');
+            this.$input_description.focus();
+        },
+
+        updateDescriptionOnEnter: function( e ) {
+            if ( e.which === 13 ) {
+                this.closeDescription();
             }
         }
 
