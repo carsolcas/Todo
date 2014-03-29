@@ -15,8 +15,12 @@ define([
 
         template: _.template(todoTemplate),
 
+        interval: null,
+
         events: {
             'click .task-close': 'deleteTask',
+            'click .task-play': 'startTask',
+            'click .task-stop': 'stopTask',
             'dblclick .task-header': 'editTitle',
             'keypress .edit-title': 'updateTitleOnEnter',
             'blur .edit-title': 'closeTitle',
@@ -57,9 +61,25 @@ define([
 
         deleteTask: function(){
             this.model.destroy();
-            // Delete view
-            this.remove();
+            this.remove(); // Delete view
         },
+
+        startTask: function(){
+            this.model.save({ current_job: true });
+            this.interval = setInterval(this.tick, 1000, this);
+        },
+
+        tick:function(view){
+            console.log('tick tack');
+            view.model.add_time();
+        },
+
+        stopTask: function(){
+            this.model.save({ current_job: false });
+            clearInterval(this.interval);
+            this.interval = null;
+        },
+
         closeTitle: function() {
             var value = this.$input_title.val().trim();
             if ( value ) {

@@ -18,7 +18,7 @@ define([
         },
 
         add_time : function(seconds){
-            s = seconds || 1;
+            var s = seconds || 1;
             this.save({
                 time: +this.get('time') + s
             });
