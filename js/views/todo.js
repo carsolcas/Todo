@@ -117,7 +117,6 @@ define([
                 this.closeDescription();
             }
         }
-
     });
 
     return TodoView;

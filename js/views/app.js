@@ -43,19 +43,17 @@ define([
                 drop: function (event, ui) {
                     var todoView = ui.draggable.data("backbone-todo"),
                         todo = todoView.model,
-                        new_state = $(this).find('.task-list').data('state');
+                        new_state = $(this).find('.task-list').data('state'),
+                        old_state = todo.get('state');
 
-                    if (new_state === todo.get('state') ){
+                    //if is the same set view to original location and exit
+                    if (new_state === old_state ){
                         ui.draggable.css('left', 0).css('top', 0);
                         return;
                     }
 
                     todo.set('state', new_state);
                     todo.save();
-                    todoView.remove();
-                    that.todoCollection.remove(todo);
-                    that.todoCollection.add(todo);
-                    that.render();
                 }
             });
 
