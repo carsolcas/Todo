@@ -34,6 +34,7 @@ define([
             this.listenTo(this.todoCollection, 'remove', this.removeOneEvent);
             this.listenTo(this.todoCollection, 'task.add.processing', this.onAddProcessing);
             this.listenTo(this.todoCollection, 'task.del.processing', this.onDelProcessing);
+            this.listenTo(this.todoCollection, 'task.started', this.onTaskStarted);
 
             _.forEach(this.$collections, function($col_container, state){
                 $col_container.data('state', state);
@@ -61,10 +62,7 @@ define([
                     else if (old_state === TSTATE.PROCESSING)
                         todo.trigger('task.del.processing', todo);
 
-                    todoView.remove();
-                    that.todoCollection.remove(todo);
-                    that.todoCollection.add(todo);
-                    that.render();
+                    that.showView(todoView);
                 }
             });
 
@@ -87,10 +85,23 @@ define([
             todo.stop();
         },
 
-        addOneEvent: function( todo ) {
-            var view = new TodoView({ model: todo }),
-                state = todo.get('state');
+        onTaskStarted:function(todo){
+            var activeTodo = this.todoCollection.activeTodo();
+            activeTodo.forEach(function(todo) {
+                todo.stop();
+            });
+
+        },
+
+        showView: function (view){
+            view.startAutoRefresh();
+            var state = view.model.get('state');
             this.$collections[state].append( view.render().el );
+        },
+
+        addOneEvent: function( todo ) {
+            var view = new TodoView({ model: todo });
+            this.showView(view);
         },
 
         removeOneEvent: function( todo ){

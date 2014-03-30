@@ -25,6 +25,12 @@ define([
             });
         },
 
+        activeTodo: function() {
+            return this.filter(function( todo ) {
+                return todo.get('current_job');
+            });
+        },
+
         comparator: function (todo) {
             return todo.get('order');
         }

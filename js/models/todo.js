@@ -29,6 +29,7 @@ define([
         },
 
         start: function(){
+            this.trigger('task.started', this);  //broadcast event
             this.save({current_job: true});
             this.interval = setInterval(this.addSecond, 1000, this);
         },

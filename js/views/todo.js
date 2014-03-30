@@ -30,7 +30,6 @@ define([
         },
 
         initialize: function() {
-            this.listenTo(this.model, 'change', this.render);
             this.listenTo(this.model, 'destroy', this.remove);
         },
 
@@ -50,14 +49,22 @@ define([
                 .data("backbone-todo", this)
                 //When start drag stop render task listener
                 .on( "dragstart", function( event, ui ) {
-                    that.stopListening(that.model, 'change');
+                    that.stopAutoRefresh();
                  })
                  //When end drag start again render task listener
                  .on( "dragstop", function( event, ui ) {
-                    that.listenTo(that.model, 'change', that.render);
+                     that.startAutoRefresh();
                  });
 
             return this;
+        },
+
+        stopAutoRefresh: function (){
+            this.stopListening(this.model, 'change');
+        },
+
+        startAutoRefresh: function (){
+            this.listenTo(this.model, 'change', this.render);
         },
 
         formatTime:function(taskTime){
