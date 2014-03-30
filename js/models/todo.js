@@ -22,6 +22,21 @@ define([
             this.save({
                 time: +this.get('time') + s
             });
+        },
+
+        addSecond: function(todo){
+            todo.add_time();
+        },
+
+        start: function(){
+            this.save({current_job: true});
+            this.interval = setInterval(this.addSecond, 1000, this);
+        },
+
+        stop: function(){
+            this.save({current_job: false});
+            clearInterval(this.interval);
+            this.interval = null;
         }
     });
 

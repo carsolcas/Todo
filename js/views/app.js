@@ -32,6 +32,8 @@ define([
             this.todoCollection = new TodoList();
             this.listenTo(this.todoCollection, 'add', this.addOneEvent);
             this.listenTo(this.todoCollection, 'remove', this.removeOneEvent);
+            this.listenTo(this.todoCollection, 'task.add.processing', this.onAddProcessing);
+            this.listenTo(this.todoCollection, 'task.del.processing', this.onDelProcessing);
 
             _.forEach(this.$collections, function($col_container, state){
                 $col_container.data('state', state);
@@ -54,6 +56,15 @@ define([
 
                     todo.set('state', new_state);
                     todo.save();
+                    if (new_state === TSTATE.PROCESSING)
+                        todo.trigger('task.add.processing', todo);
+                    else if (old_state === TSTATE.PROCESSING)
+                        todo.trigger('task.del.processing', todo);
+
+                    todoView.remove();
+                    that.todoCollection.remove(todo);
+                    that.todoCollection.add(todo);
+                    that.render();
                 }
             });
 
@@ -66,6 +77,14 @@ define([
                 title: this.$title.val().trim(),
                 description: this.$desc.val().trim()
             }
+        },
+
+        onAddProcessing:function(todo){
+            todo.start();
+        },
+
+        onDelProcessing:function(todo){
+            todo.stop();
         },
 
         addOneEvent: function( todo ) {

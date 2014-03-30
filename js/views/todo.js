@@ -35,7 +35,8 @@ define([
         },
 
         render: function () {
-            var data = this.model.toJSON();
+            var data = this.model.toJSON(),
+                that = this;
             data.formatedTime = this.formatTime(this.model.get('time'));
             this.$el.html(this.template(data));
             this.$input_title = this.$('.edit-title');
@@ -45,7 +46,16 @@ define([
 
             this.$('.task-item').draggable({
                     revert: 'invalid'
-                }).data("backbone-todo", this);
+                })
+                .data("backbone-todo", this)
+                //When start drag stop render task listener
+                .on( "dragstart", function( event, ui ) {
+                    that.stopListening(that.model, 'change');
+                 })
+                 //When end drag start again render task listener
+                 .on( "dragstop", function( event, ui ) {
+                    that.listenTo(that.model, 'change', that.render);
+                 });
 
             return this;
         },
@@ -65,19 +75,11 @@ define([
         },
 
         startTask: function(){
-            this.model.save({ current_job: true });
-            this.interval = setInterval(this.tick, 1000, this);
-        },
-
-        tick:function(view){
-            console.log('tick tack');
-            view.model.add_time();
+            this.model.start();
         },
 
         stopTask: function(){
-            this.model.save({ current_job: false });
-            clearInterval(this.interval);
-            this.interval = null;
+            this.model.stop();
         },
 
         closeTitle: function() {
