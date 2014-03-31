@@ -68,9 +68,9 @@ define([
         },
 
         formatTime:function(taskTime){
-                var seconds = taskTime % 60,
-                    minutes = Math.floor(taskTime / 60),
-                    hour = (minutes < 60) ? 0 : Math.floor(minutes / 60),
+                var hour = Math.floor(taskTime / 3600),
+                    minutes = Math.floor(taskTime % 3600 / 60),
+                    seconds = taskTime % 60,
                     time = [Common.lpad(hour, 2), Common.lpad(minutes, 2), Common.lpad(seconds, 2)];
 
                 return time.join(':');
