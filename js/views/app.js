@@ -32,6 +32,7 @@ define([
             this.todoCollection = new TodoList();
             this.listenTo(this.todoCollection, 'add', this.addOneEvent);
             this.listenTo(this.todoCollection, 'remove', this.removeOneEvent);
+            // Custom Events
             this.listenTo(this.todoCollection, 'task.add.processing', this.onAddProcessing);
             this.listenTo(this.todoCollection, 'task.del.processing', this.onDelProcessing);
             this.listenTo(this.todoCollection, 'task.started', this.onTaskStarted);

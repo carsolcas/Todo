@@ -42,6 +42,7 @@ define([
             this.$input_description = this.$('.edit-des');
             this.$task_header = this.$('.task-header');
             this.$task_description = this.$('.task-des');
+            this.$timeField = this.$('.task-date span');
 
             this.$('.task-item').draggable({
                     revert: 'invalid'
@@ -59,12 +60,21 @@ define([
             return this;
         },
 
+        refreshTime: function(){
+            var time = this.formatTime(this.model.get('time'));
+            this.$timeField.html(time);
+        },
+
         stopAutoRefresh: function (){
-            this.stopListening(this.model, 'change');
+            this.stopListening(this.model, 'change:time');
+            this.stopListening(this.model, 'change:title');
+            this.stopListening(this.model, 'change:description');
         },
 
         startAutoRefresh: function (){
-            this.listenTo(this.model, 'change', this.render);
+            this.listenTo(this.model, 'change:time', this.refreshTime);
+            this.listenTo(this.model, 'change:title', this.render);
+            this.listenTo(this.model, 'change:description', this.render);
         },
 
         formatTime:function(taskTime){
